@@ -12,9 +12,9 @@ def emotion_detection():
     # Check for blank input before calling emotion_detector
     if text_to_analyze.strip() == "":
         return "<b>Invalid text! Please try again!.</b>"
-        
+
     result = emotion_detector(text_to_analyze)
-    
+
     dominant = result['dominant_emotion']
     # Remove dominant_emotion from display dict
     display = {k: v for k, v in result.items() if k != 'dominant_emotion'}

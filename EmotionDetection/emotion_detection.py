@@ -37,25 +37,25 @@ def emotion_detector(text_to_analyze):
             'sadness': None,
             'dominant_emotion': None
         }
+        # Handle 200 status code - successful response
+    if response.status_code == 200:
+        # convert response to disctionary
+        response_dictionary = json.loads(response.text) 
 
-    # convert response to disctionary
-    response_dictionary = json.loads(response.text) 
+        # gets first item → {"emotion": {...} 
+        emotions = response_dictionary['emotionPredictions'][0]['emotion']
 
-    # gets first item → {"emotion": {...} 
-    emotions = response_dictionary['emotionPredictions'][0]['emotion']
+        emotion_scores = {
+            'anger':    emotions['anger'],
+            'disgust':  emotions['disgust'],
+            'fear':     emotions['fear'],
+            'joy':      emotions['joy'],
+            'sadness':  emotions['sadness']
+        }
 
-    emotion_scores = {
-        'anger':    emotions['anger'],
-        'disgust':  emotions['disgust'],
-        'fear':     emotions['fear'],
-        'joy':      emotions['joy'],
-        'sadness':  emotions['sadness']
-    }
+        emotion_scores['dominant_emotion'] = max(emotion_scores, key=emotion_scores.get)
 
-    emotion_scores['dominant_emotion'] = max(emotion_scores, key=emotion_scores.get)
-
-
-    return emotion_scores
+        return emotion_scores
 
 if __name__ == "__main__":
     result = emotion_detector("I hate working long hours")

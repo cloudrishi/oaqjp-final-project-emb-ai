@@ -9,6 +9,10 @@ def emotion_detection():
     """Analyze the emotion of the given text and return the result."""
     text_to_analyze = request.args.get("textToAnalyze", "")
 
+    # Check for blank input before calling emotion_detector
+    if text_to_analyze.strip() == "":
+        return "<b>Invalid text! Please try again!.</b>"
+        
     result = emotion_detector(text_to_analyze)
 
     dominant = result['dominant_emotion']
